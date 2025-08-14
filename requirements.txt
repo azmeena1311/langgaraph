@@ -1,8 +1,12 @@
 langgraph
 langchain
+langchain-core
+langchain-community
+langchain-openai
 langsmith
 python-dotenv
 langchain-groq 
 langchain_tavily
 arxiv
 wikipedia
+langgraph-cli[inmem]
