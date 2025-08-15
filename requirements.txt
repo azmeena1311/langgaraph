@@ -14,3 +14,6 @@ langchain-groq
 langchain-mcp-adapters
 mcp
 langgraph
+fastapi
+uvicorn
+watchdog
