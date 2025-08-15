@@ -10,3 +10,7 @@ langchain_tavily
 arxiv
 wikipedia
 langgraph-cli[inmem]
+langchain-groq
+langchain-mcp-adapters
+mcp
+langgraph
