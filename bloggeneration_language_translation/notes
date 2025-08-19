@@ -1,0 +1,146 @@
+Topic: Building a Multi-Language Blog Generation Graph
+1. Context
+
+You already have a blog generation graph (build_topic_graph) with:
+
+Title Creation node
+
+Content Generation node
+
+Now you want to extend it so the blog can be generated in different languages based on an input (e.g., Hindi, French).
+
+2. New Input
+
+Instead of only providing topic, the request.json will now also have:
+
+{
+  "topic": "AI in Education",
+  "language": "Hindi"
+}
+
+
+language tells the system which translation path to take.
+
+3. New Method
+Method Name
+build_language_graph(self)
+
+Purpose
+
+Build a graph that:
+
+Starts with topic
+
+Generates title
+
+Generates content
+
+Routes output based on language choice
+
+Translates to that language
+
+Ends
+
+Docstring Example
+
+Builds a blog generation graph with topic and language inputs, generating and translating content accordingly.
+
+4. Nodes in the Graph
+
+Start
+
+Title Creation (already implemented)
+
+Content Generation (already implemented)
+
+Root (decides which translation path to take — to be implemented)
+
+Hindi Translation (to be implemented)
+
+French Translation (to be implemented)
+
+End
+
+5. Edges (Flow)
+
+Start → Title Creation
+
+Title Creation → Content Generation
+
+Content Generation → Root
+
+Conditional Edge:
+
+If language == "Hindi" → Hindi Translation
+
+Else → French Translation
+
+Hindi Translation → End
+
+French Translation → End
+
+6. Conditional Edges
+
+Implemented with:
+
+self.graph.add_conditional_edges(
+    "root",
+    condition=self.blog_node.route_decision,
+    path_map={
+        "Hindi": "hindi_translation",
+        "French": "french_translation"
+    }
+)
+
+
+route_decision() will check language input and return the correct path.
+
+7. Remaining Work
+
+Implement node functions for:
+
+root (decides translation path)
+
+hindi_translation (actually performs Hindi translation)
+
+french_translation (performs French translation)
+
+Modify main execution logic so that:
+
+If use_case includes language, call build_language_graph() instead of build_topic_graph().
+
+8. Big Picture Flow
+          ┌───────────────────────┐
+          │        Start           │
+          └──────────┬────────────┘
+                     ↓
+          ┌───────────────────────┐
+          │    Title Creation      │
+          └──────────┬────────────┘
+                     ↓
+          ┌───────────────────────┐
+          │  Content Generation    │
+          └──────────┬────────────┘
+                     ↓
+          ┌───────────────────────┐
+          │         Root           │
+          │ (check language)       │
+          └─────┬─────────┬───────┘
+                ↓         ↓
+   ┌─────────────────┐  ┌─────────────────┐
+   │ Hindi Translation│  │French Translation│
+   └─────────────────┘  └─────────────────┘
+                ↓         ↓
+          ┌───────────────────────┐
+          │          End           │
+          └───────────────────────┘
+
+9. Key Takeaways
+
+We’re adding language branching logic to the existing blog generation graph.
+
+Conditional edges decide which translation path to follow.
+
+The route_decision function is central — it maps language input to the correct node.
+
+Only the graph structure is built right now — translation logic will be added later.
